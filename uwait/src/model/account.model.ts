@@ -1,78 +1,102 @@
-import { Attivita } from "./attivita.model";
+import { Attivita, StatoVerifica } from "./attivita.model";
 
 abstract class Account {
-  protected email: string;
+  private _email: string;
 
-  constructor(email: string) {
-    this.email = email;
+  constructor(email: string = "") {
+    this._email = email;
   }
 
-  getEmail() {
-    return this.email;
+  protected get email(): string {
+    return this._email;
   }
-
-  setEmail(email: string) {
-    this.email = email;
+  protected set email(value: string) {
+    this._email = value;
   }
 }
 
 export class Personale extends Account {
-  protected nome: string;
-  protected cognome: string;
-  constructor(email: string, nome: string, cognome: string) {
+  private _nome: string;
+  private _cognome: string;
+
+  constructor(email: string = "", nome: string = "", cognome: string = "") {
     super(email);
-    this.nome = nome;
-    this.cognome = cognome;
+    this._nome = nome;
+    this._cognome = cognome;
   }
 
-  getNome() {
-    return this.nome;
+  protected get nome(): string {
+    return this._nome;
   }
 
-  setNome(nome: string) {
-    this.nome = nome;
+  protected set nome(value: string) {
+    this._nome = value;
   }
 
-  getCognome() {
-    return this.cognome;
+  protected get cognome(): string {
+    return this._cognome;
   }
 
-  setCognome(cognome: string) {
-    this.cognome = cognome;
+  protected set cognome(value: string) {
+    this._cognome = value;
   }
 }
 
 export class Gestore extends Personale {
-  private dataNascita!: Date;
-  private documentoIdentita!: string;
-  private statoVerifica!: boolean;
-  private attivita!: Set<Attivita>;
+  private _dataNascita: Date | null;
+  private _documentoIdentita: string | null;
+  private _statoVerifica: StatoVerifica;
+  private _attivita: Set<Attivita>;
 
-  getDataNascita() {
-    return this.dataNascita;
+  constructor(
+    email: string,
+    nome: string,
+    cognome: string,
+    dataNascita: Date | null = null,
+    documentoIdentita: string | null = null,
+    statoVerifica: StatoVerifica = StatoVerifica.InSospeso,
+    attivita: Set<Attivita> = new Set<Attivita>()
+  ) {
+    super(email, nome, cognome);
+    this._dataNascita = dataNascita;
+    this._documentoIdentita = documentoIdentita;
+    this._statoVerifica = statoVerifica;
+    this._attivita = attivita;
   }
 
-  setDataNascita(dataNascita: Date) {
-    this.dataNascita = dataNascita;
+  public get dataNascita(): Date | null {
+    return this._dataNascita;
   }
 
-  getDocumentoIdentita() {
-    return this.documentoIdentita;
+  public set dataNascita(value: Date | null) {
+    this._dataNascita = value;
   }
 
-  setDocumentoIdentita(documentoIdentita: string) {
-    this.documentoIdentita = documentoIdentita;
+  public get documentoIdentita(): string | null {
+    return this._documentoIdentita;
   }
 
-  getStatoVerifica() {
-    return this.statoVerifica;
+  public set documentoIdentita(value: string | null) {
+    this._documentoIdentita = value;
   }
 
-  setStatoVerifica(statoVerifica: boolean) {
-    this.statoVerifica = statoVerifica;
+  public get statoVerifica(): StatoVerifica {
+    return this._statoVerifica;
+  }
+
+  public set statoVerifica(value: StatoVerifica) {
+    this._statoVerifica = value;
+  }
+
+  public get attivita(): Set<Attivita> {
+    return this._attivita;
+  }
+
+  public set attivita(value: Set<Attivita>) {
+    this._attivita = value;
   }
 
   registraAttivita() {}
 }
 
-class Assistenza extends Account {}
+export class Assistenza extends Account {}

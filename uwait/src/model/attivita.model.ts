@@ -1,22 +1,27 @@
+import { Portata } from "./portata.model";
+
 export class Attivita {
   private _nome: string;
   private _indirizzo: string;
   private _documentoProprieta: string | null;
-  private _statoVerifica: boolean;
+  private _statoVerifica: StatoVerifica;
   private _numeroTavoli: number;
-
+  private _menu: Set<Menu>;
+  
   constructor(
     nome: string,
     indirizzo: string,
     numeroTavoli: number = 0,
     documentoProprieta: string | null = null,
-    statoVerifica = false
+    statoVerifica: StatoVerifica = StatoVerifica.InSospeso,
+    menu: Set<Menu> = new Set<Menu>()
   ) {
     this._nome = nome;
     this._indirizzo = indirizzo;
     this._documentoProprieta = documentoProprieta;
     this._numeroTavoli = numeroTavoli;
     this._statoVerifica = statoVerifica;
+    this._menu = menu;
   }
 
   public get nome(): string {
@@ -43,11 +48,11 @@ export class Attivita {
     this._documentoProprieta = value;
   }
 
-  public get statoVerifica(): boolean {
+  public get statoVerifica(): StatoVerifica {
     return this._statoVerifica;
   }
 
-  public set statoVerifica(value: boolean) {
+  public set statoVerifica(value: StatoVerifica) {
     this._statoVerifica = value;
   }
 
@@ -58,6 +63,20 @@ export class Attivita {
   public set numeroTavoli(value: number) {
     this._numeroTavoli = value;
   }
+
+  public get menu(): Set<Menu> {
+    return this._menu;
+  }
+
+  public aggiungiMenu(menu: Menu): void {
+    this._menu.add(menu);
+  }  
+}
+
+export enum StatoVerifica {
+  InSospeso,
+  Accettata,
+  Negata,
 }
 
 export class Abbonamento {
@@ -121,5 +140,49 @@ export class Abbonamento {
     }
 
     this._scadenza = temp;
+  }
+}
+
+export class Menu {
+  private _nome: string;
+  private _attivo: boolean;
+  private _portate: Array<Portata>;
+
+  constructor(
+    nome: string,
+    attivo: boolean = false,
+    portate: Array<Portata> = []
+  ) {
+    this._nome = nome;
+    this._attivo = attivo;
+    this._portate = portate;
+  }
+
+  public get nome(): string {
+    return this._nome;
+  }
+
+  public set nome(value: string) {
+    this._nome = value;
+  }
+
+  public get attivo(): boolean {
+    return this._attivo;
+  }
+
+  public set attivo(value: boolean) {
+    this._attivo = value;
+  }
+
+  public get portate(): Array<Portata> {
+    return this._portate;
+  }
+
+  public aggiungiPortata(portata: Portata): void {
+    this._portate.push(portata);
+  }
+
+  public rimuoviPortata(portata: Portata): void {
+    this._portate.splice(this._portate.indexOf(portata), 1);
   }
 }
