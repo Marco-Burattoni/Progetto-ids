@@ -74,3 +74,5 @@ export class Gestore extends Personale {
 
   registraAttivita() {}
 }
+
+class Assistenza extends Account {}
