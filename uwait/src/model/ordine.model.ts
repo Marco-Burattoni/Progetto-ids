@@ -79,4 +79,6 @@ export class Ordine {
       this._portate.set(portata, 1);
     }
   }
+
+  // alla conferma controllo che il numero del tavolo sia positivo
 }
