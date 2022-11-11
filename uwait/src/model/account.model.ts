@@ -1,16 +1,16 @@
 import { Attivita, StatoVerifica } from "./attivita.model";
 
 abstract class Account {
-  private _email: string;
+  protected _email: string;
 
-  constructor(email: string = "") {
+  constructor(email: string) {
     this._email = email;
   }
 
-  protected get email(): string {
+  public get email(): string {
     return this._email;
   }
-  protected set email(value: string) {
+  public set email(value: string) {
     this._email = value;
   }
 }
@@ -19,7 +19,7 @@ export class Personale extends Account {
   private _nome: string;
   private _cognome: string;
 
-  constructor(email: string = "", nome: string = "", cognome: string = "") {
+  constructor(email: string, nome: string, cognome: string) {
     super(email);
     this._nome = nome;
     this._cognome = cognome;
