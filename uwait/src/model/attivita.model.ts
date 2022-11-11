@@ -1,5 +1,11 @@
 import { Portata } from "./portata.model";
 
+export enum StatoVerifica {
+  InSospeso,
+  Accettata,
+  Negata,
+}
+
 export class Attivita {
   private _nome: string;
   private _indirizzo: string;
@@ -7,14 +13,16 @@ export class Attivita {
   private _statoVerifica: StatoVerifica;
   private _numeroTavoli: number;
   private _menu: Set<Menu>;
-  
+  private _abbonamento: Abbonamento;
+
   constructor(
     nome: string,
     indirizzo: string,
     numeroTavoli: number = 0,
     documentoProprieta: string | null = null,
     statoVerifica: StatoVerifica = StatoVerifica.InSospeso,
-    menu: Set<Menu> = new Set<Menu>()
+    menu: Set<Menu> = new Set<Menu>(),
+    abbonamento: Abbonamento = new Abbonamento()
   ) {
     this._nome = nome;
     this._indirizzo = indirizzo;
@@ -22,6 +30,7 @@ export class Attivita {
     this._numeroTavoli = numeroTavoli;
     this._statoVerifica = statoVerifica;
     this._menu = menu;
+    this._abbonamento = abbonamento;
   }
 
   public get nome(): string {
@@ -68,41 +77,42 @@ export class Attivita {
     return this._menu;
   }
 
+  public get abbonamento(): Abbonamento {
+    return this._abbonamento;
+  }
+
+  public set abbonamento(value: Abbonamento) {
+    this._abbonamento = value;
+  }
+
   public aggiungiMenu(menu: Menu): void {
     this._menu.add(menu);
-  }  
-}
-
-export enum StatoVerifica {
-  InSospeso,
-  Accettata,
-  Negata,
+  }
 }
 
 export class Abbonamento {
-  private _attivo: boolean;
-  private _scadenza: Date | null;
+  private _scadenza: Date;
   private _annuale: boolean;
   private _rinnovoAutomatico: boolean;
 
   constructor(
-    attivo: boolean = false,
     scadenza: Date | null = null,
     annuale: boolean = false,
     rinnovoAutomatico: boolean = false
   ) {
-    this._attivo = attivo;
+    if (scadenza) {
+      this._scadenza = scadenza;
+    } else {
+      let yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      this._scadenza = yesterday;
+    }
     this._annuale = annuale;
-    this._scadenza = scadenza;
     this._rinnovoAutomatico = rinnovoAutomatico;
   }
 
-  public get attivo(): boolean {
-    return this._attivo;
-  }
-
-  public set attivo(value: boolean) {
-    this._attivo = value;
+  public isAttivo(): boolean {
+    return this._scadenza < new Date();
   }
 
   public get annuale(): boolean {
@@ -113,11 +123,11 @@ export class Abbonamento {
     this._annuale = value;
   }
 
-  public get scadenza(): Date | null {
+  public get scadenza(): Date {
     return this._scadenza;
   }
 
-  public set scadenza(value: Date | null) {
+  public set scadenza(value: Date) {
     this._scadenza = value;
   }
 
@@ -130,8 +140,6 @@ export class Abbonamento {
   }
 
   public rinnova() {
-    this.attivo = true;
-
     let temp = new Date();
     if (this.annuale) {
       temp.setFullYear(temp.getFullYear() + 1);
@@ -143,19 +151,28 @@ export class Abbonamento {
   }
 }
 
+export enum Tipo {
+  Fisso,
+  AllaCarta,
+  Degustazione,
+}
+
 export class Menu {
   private _nome: string;
   private _attivo: boolean;
   private _portate: Array<Portata>;
+  private _tipo: Tipo;
 
   constructor(
     nome: string,
     attivo: boolean = false,
-    portate: Array<Portata> = []
+    portate: Array<Portata> = [],
+    tipo: Tipo = Tipo.AllaCarta
   ) {
     this._nome = nome;
     this._attivo = attivo;
     this._portate = portate;
+    this._tipo = tipo;
   }
 
   public get nome(): string {
@@ -176,6 +193,14 @@ export class Menu {
 
   public get portate(): Array<Portata> {
     return this._portate;
+  }
+
+  public get tipo(): Tipo {
+    return this._tipo;
+  }
+
+  public set tipo(value: Tipo) {
+    this._tipo = value;
   }
 
   public aggiungiPortata(portata: Portata): void {
