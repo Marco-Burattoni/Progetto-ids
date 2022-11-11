@@ -96,7 +96,9 @@ export class Gestore extends Personale {
     this._attivita = value;
   }
 
-  registraAttivita() {}
+  public registraAttivita(attivita: Attivita): void {
+    this._attivita.add(attivita);
+  }
 }
 
 export class Assistenza extends Account {}
