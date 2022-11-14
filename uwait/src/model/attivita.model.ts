@@ -11,14 +11,14 @@ export class Attivita {
   private _indirizzo: string;
   private _documentoProprieta: string | null;
   private _statoVerifica: StatoVerifica;
-  private _numeroTavoli: number;
+  private _tavoliConRichiamo: number[];
   private _menu: Set<Menu>;
   private _abbonamento: Abbonamento;
 
   constructor(
     nome: string,
     indirizzo: string,
-    numeroTavoli: number = 0,
+    tavoliConRichiamo: number[] = [],
     documentoProprieta: string | null = null,
     statoVerifica: StatoVerifica = StatoVerifica.InSospeso,
     menu: Set<Menu> = new Set<Menu>(),
@@ -27,7 +27,7 @@ export class Attivita {
     this._nome = nome;
     this._indirizzo = indirizzo;
     this._documentoProprieta = documentoProprieta;
-    this._numeroTavoli = numeroTavoli;
+    this._tavoliConRichiamo = tavoliConRichiamo;
     this._statoVerifica = statoVerifica;
     this._menu = menu;
     this._abbonamento = abbonamento;
@@ -65,12 +65,12 @@ export class Attivita {
     this._statoVerifica = value;
   }
 
-  public get numeroTavoli(): number {
-    return this._numeroTavoli;
+  public get tavoliConRichiamo(): number[] {
+    return this._tavoliConRichiamo;
   }
 
-  public set numeroTavoli(value: number) {
-    this._numeroTavoli = value;
+  public set tavoliConRichiamo(value: number[]) {
+    this._tavoliConRichiamo = value;
   }
 
   public get menu(): Set<Menu> {
@@ -112,7 +112,7 @@ export class Abbonamento {
   }
 
   public isAttivo(): boolean {
-    return this._scadenza < new Date();
+    return this._scadenza > new Date();
   }
 
   public get annuale(): boolean {

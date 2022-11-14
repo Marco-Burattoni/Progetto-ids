@@ -10,6 +10,7 @@ abstract class Account {
   public get email(): string {
     return this._email;
   }
+
   public set email(value: string) {
     this._email = value;
   }
@@ -25,19 +26,19 @@ export class Personale extends Account {
     this._cognome = cognome;
   }
 
-  protected get nome(): string {
+  public get nome(): string {
     return this._nome;
   }
 
-  protected set nome(value: string) {
+  public set nome(value: string) {
     this._nome = value;
   }
 
-  protected get cognome(): string {
+  public get cognome(): string {
     return this._cognome;
   }
 
-  protected set cognome(value: string) {
+  public set cognome(value: string) {
     this._cognome = value;
   }
 }

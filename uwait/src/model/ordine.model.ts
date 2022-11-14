@@ -7,7 +7,7 @@ export enum StatoOrdine {
 }
 
 export class Ordine {
-  private _id: number;
+  private _id: string;
   private _tavolo: number;
   private _consegnato: boolean;
   private _dataOra: Date;
@@ -16,7 +16,7 @@ export class Ordine {
   private _statoOrdine: StatoOrdine;
 
   constructor(
-    id: number,
+    id: string,
     tavolo: number,
     consegnato: boolean = false,
     dataOra: Date = new Date(),
@@ -33,11 +33,11 @@ export class Ordine {
     this._statoOrdine = statoOrdine;
   }
 
-  public get id(): number {
+  public get id(): string {
     return this._id;
   }
 
-  public set id(value: number) {
+  public set id(value: string) {
     this._id = value;
   }
 
@@ -90,11 +90,8 @@ export class Ordine {
   }
 
   public aggiungiPortata(portata: Portata) {
-    if (this._portate.has(portata)) {
-      this._portate.set(portata, this._portate.get(portata) || 0 + 1);
-    } else {
-      this._portate.set(portata, 1);
-    }
+    let count = this._portate.get(portata) || 0;
+    this._portate.set(portata, count + 1);
   }
 
   // alla conferma controllo che il numero del tavolo sia positivo
@@ -116,7 +113,8 @@ export abstract class Pagamento {
   }
 
   public pagaOrdine(): void {
-    this._ordine.statoOrdine = StatoOrdine.Pagato;
+    if (this._ordine.statoOrdine === StatoOrdine.Confermato)
+      this._ordine.statoOrdine = StatoOrdine.Pagato;
   }
 }
 
