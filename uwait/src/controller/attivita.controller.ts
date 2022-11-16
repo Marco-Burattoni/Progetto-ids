@@ -134,6 +134,23 @@ export class GestioneMenuAttivitaController
 
   salvaMenu(): void {
     setDoc(this.menuAttivoRef, this._menuAttivo);
-    const portateRef = collection(this.getDb(), this.menuAttivoRef.path, "portate")
+    const portateRef = collection(
+      this.getDb(),
+      this.menuAttivoRef.path,
+      "portate"
+    );
+    this.menuAttivo.portate.forEach((portata) => {
+      if (portata.id) {
+        const portataRef = doc(this.getDb(), portateRef.path, portata.id);
+        setDoc(portataRef, portata);
+      } else {
+        addDoc(portateRef, portata)
+          .then((doc) => getDoc(doc))
+          .then((doc) => doc.id)
+          .then((id) => {
+            portata.id = id;
+          });
+      }
+    });
   }
 }

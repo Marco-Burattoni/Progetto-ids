@@ -1,4 +1,5 @@
 export class Portata {
+  private _id?: string | undefined;
   private _nome: string;
   private _categoria: string;
   private _descrizione: string;
@@ -17,6 +18,14 @@ export class Portata {
     this._descrizione = descrizione;
     this._prezzo = prezzo;
     this._allergeni = allergeni;
+  }
+  
+  public get id(): string | undefined {
+    return this._id;
+  }
+  
+  public set id(value: string | undefined) {
+    this._id = value;
   }
 
   get nome(): string {
