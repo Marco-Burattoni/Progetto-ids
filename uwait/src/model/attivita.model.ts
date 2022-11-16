@@ -1,3 +1,4 @@
+import { Gestore, Personale } from "./account.model";
 import { Portata } from "./portata.model";
 
 export enum StatoVerifica {
@@ -7,6 +8,7 @@ export enum StatoVerifica {
 }
 
 export class Attivita {
+  private _id: string;
   private _nome: string;
   private _indirizzo: string;
   private _documentoProprieta: string | null;
@@ -14,23 +16,39 @@ export class Attivita {
   private _tavoliConRichiamo: number[];
   private _menu: Set<Menu>;
   private _abbonamento: Abbonamento;
+  private _personale: Set<Personale>;
+  private _gestore: Gestore;
 
   constructor(
+    id: string,
     nome: string,
     indirizzo: string,
+    gestore: Gestore,
     tavoliConRichiamo: number[] = [],
     documentoProprieta: string | null = null,
     statoVerifica: StatoVerifica = StatoVerifica.InSospeso,
     menu: Set<Menu> = new Set<Menu>(),
-    abbonamento: Abbonamento = new Abbonamento()
+    abbonamento: Abbonamento = new Abbonamento(),
+    personale: Set<Personale> = new Set<Personale>()
   ) {
+    this._id = id;
     this._nome = nome;
     this._indirizzo = indirizzo;
+    this._gestore = gestore;
     this._documentoProprieta = documentoProprieta;
     this._tavoliConRichiamo = tavoliConRichiamo;
     this._statoVerifica = statoVerifica;
     this._menu = menu;
     this._abbonamento = abbonamento;
+    this._personale = personale;
+  }
+
+  public get id(): string {
+    return this._id;
+  }
+
+  public set id(value: string) {
+    this._id = value;
   }
 
   public get nome(): string {
@@ -83,6 +101,22 @@ export class Attivita {
 
   public set abbonamento(value: Abbonamento) {
     this._abbonamento = value;
+  }
+
+  public get personale(): Set<Personale> {
+    return this._personale;
+  }
+
+  public set personale(value: Set<Personale>) {
+    this._personale = value;
+  }
+
+  public get gestore(): Gestore {
+    return this._gestore;
+  }
+
+  public set gestore(value: Gestore) {
+    this._gestore = value;
   }
 
   public aggiungiMenu(menu: Menu): void {

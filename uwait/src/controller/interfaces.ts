@@ -17,7 +17,7 @@ export interface IRegistrazioneAttivita {
 }
 
 export interface IGestioneAttivita {
-    invitaPersonale(mail: string): string;
+    invitaPersonale(mail: string): Promise<string | null>;
     getPersonale(): Set<Personale>;
 }
 
