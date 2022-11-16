@@ -23,10 +23,12 @@ export interface IGestioneAttivita {
 
 export interface IGestioneMenuAttivita {
     creaPortata(portata: Portata): void;
-    eliminaPortata(portata: Portata): void;
+    rimuoviPortata(portata: Portata): void;
     inserisciMenu(nome: string): void;
     disattivaMenu(nome: string): void;
     eliminaMenu(nome: string): void;
+    selezionaMenu(nome: string): void;
+    salvaMenu(): void;
 }
 
 export interface IGestioneAbbonamento {
