@@ -1,5 +1,4 @@
 import { env } from "process";
-import { isThisTypeNode } from "typescript";
 import { Personale } from "../model/account.model";
 import { Attivita, Menu } from "../model/attivita.model";
 import { Controller } from "./controller";
@@ -18,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { Portata } from "../model/portata.model";
 
-class AttivitaController extends Controller {
+export class AttivitaController extends Controller {
   private _attivita: Attivita;
 
   public constructor(attivita: Attivita) {
@@ -27,10 +26,10 @@ class AttivitaController extends Controller {
   }
 
   public get attivita(): Attivita {
-    return this.attivita;
+    return this._attivita;
   }
 
-  protected get attivitaRef(): DocumentReference<DocumentData> {
+  public get attivitaRef(): DocumentReference<DocumentData> {
     return doc(this.getDb(), this.attivita.gestore.email, this.attivita.id);
   }
 }
