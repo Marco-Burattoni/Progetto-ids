@@ -1,41 +1,14 @@
-import { Personale, Gestore } from "../src/model/account.model";
-import {
-  Attivita,
-  Menu,
-  StatoVerifica,
-  Tipo,
-} from "../src/model/attivita.model";
-import {
-  Ordine,
-  Pagamento,
-  PayPal,
-  StatoOrdine,
-} from "../src/model/ordine.model";
-import { Allergene, Portata } from "../src/model/portata.model";
-
-let portata: Portata = new Portata(
-  "Tagliata di manzo",
-  "Secondi",
-  "con patate al forno",
-  20.5,
-  new Set<Allergene>([Allergene.Sesamo])
-);
+import { Personale } from "../src/model/account.model";
+import { StatoVerifica } from "../src/model/attivita.model";
+import { Pagamento, PayPal, StatoOrdine } from "../src/model/ordine.model";
+import { Portata } from "../src/model/portata.model";
+import { gestore, portata, attivita, menu, ordine } from "./mocks.test";
 
 describe("Account", () => {
   let andrea: Personale;
-  let marco: Gestore;
 
   beforeAll(() => {
     andrea = new Personale("andrea@mail.com", "Andrea", "Rossi");
-    marco = new Gestore(
-      "marco@mail.com",
-      "Marco",
-      "Verdi",
-      new Date(2000, 1, 1),
-      null,
-      StatoVerifica.InSospeso,
-      new Set<Attivita>()
-    );
   });
 
   test("Personale", () => {
@@ -45,17 +18,11 @@ describe("Account", () => {
   });
 
   test("Gestore", () => {
-    expect(marco.attivita.values).toHaveLength(0);
+    expect(gestore.attivita.values).toHaveLength(0);
   });
 });
 
 describe("Attività", () => {
-  let attivita: Attivita;
-
-  beforeAll(() => {
-    attivita = new Attivita("Osteria", "Bologna, via Roma 20");
-  });
-
   test("Attivita", () => {
     expect(attivita.nome).toBe("Osteria");
     expect(attivita.statoVerifica).toBe(StatoVerifica.InSospeso);
@@ -71,7 +38,6 @@ describe("Attività", () => {
   });
 
   test("Menu", () => {
-    let menu: Menu = new Menu("Menù di carne", true, [], Tipo.Degustazione);
     expect(menu.portate).toHaveLength(0);
 
     menu.aggiungiPortata(portata);
@@ -82,11 +48,9 @@ describe("Attività", () => {
 });
 
 describe("Ordine", () => {
-  let ordine: Ordine;
   let pagamento: Pagamento;
 
   beforeAll(() => {
-    ordine = new Ordine("abcdefg1234", 1, false);
     pagamento = new PayPal(ordine);
   });
 

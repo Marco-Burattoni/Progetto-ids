@@ -1,5 +1,4 @@
 import { env } from "process";
-import { isThisTypeNode } from "typescript";
 import { Personale } from "../model/account.model";
 import { Attivita, Menu } from "../model/attivita.model";
 import { Controller } from "./controller";
@@ -18,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { Portata } from "../model/portata.model";
 
-class AttivitaController extends Controller {
+export class AttivitaController extends Controller {
   private _attivita: Attivita;
 
   public constructor(attivita: Attivita) {
@@ -27,10 +26,10 @@ class AttivitaController extends Controller {
   }
 
   public get attivita(): Attivita {
-    return this.attivita;
+    return this._attivita;
   }
 
-  protected get attivitaRef(): DocumentReference<DocumentData> {
+  public get attivitaRef(): DocumentReference<DocumentData> {
     return doc(this.getDb(), this.attivita.gestore.email, this.attivita.id);
   }
 }
@@ -134,6 +133,23 @@ export class GestioneMenuAttivitaController
 
   salvaMenu(): void {
     setDoc(this.menuAttivoRef, this._menuAttivo);
-    const portateRef = collection(this.getDb(), this.menuAttivoRef.path, "portate")
+    const portateRef = collection(
+      this.getDb(),
+      this.menuAttivoRef.path,
+      "portate"
+    );
+    this.menuAttivo.portate.forEach((portata) => {
+      if (portata.id) {
+        const portataRef = doc(this.getDb(), portateRef.path, portata.id);
+        setDoc(portataRef, portata);
+      } else {
+        addDoc(portateRef, portata)
+          .then((doc) => getDoc(doc))
+          .then((doc) => doc.id)
+          .then((id) => {
+            portata.id = id;
+          });
+      }
+    });
   }
 }
