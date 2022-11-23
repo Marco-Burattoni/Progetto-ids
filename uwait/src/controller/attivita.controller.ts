@@ -40,7 +40,7 @@ export class GestioneAttivitaController
 {
   async invitaPersonale(mail: string): Promise<string | null> {
     const q = query(
-      collection(this.getDb(), "accounts"),
+      collection(this.getDb(), "personale"),
       where("email", "==", mail)
     );
 
@@ -49,6 +49,9 @@ export class GestioneAttivitaController
       const attivitaRef = this.attivitaRef;
 
       const attivita = (await getDoc(attivitaRef)).data();
+      if (attivita && !attivita?.personale) {
+        attivita.personale = [];
+      }
       attivita?.personale.push(querySnapshot.docs[0].ref);
 
       await setDoc(attivitaRef, querySnapshot.docs[0].ref);

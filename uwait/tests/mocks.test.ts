@@ -1,4 +1,4 @@
-import { Gestore } from "../src/model/account.model";
+import { Gestore, Personale } from "../src/model/account.model";
 import {
   Attivita,
   Menu,
@@ -40,3 +40,9 @@ export const menu: Menu = new Menu(
 );
 
 export const ordine: Ordine = new Ordine("abcdefg1234", 1, false);
+
+export const personale: Personale = new Personale(
+  "personale@gmail.com",
+  "Mario",
+  "Rossi"
+);

@@ -62,12 +62,14 @@ export class GestionePersonaleController
     return result;
   }
 
-  public richiamoGestito(tavolo: number): void {
+  public richiamoGestito(tavolo: number): Promise<void> {
     this._attivita.tavoliConRichiamo.splice(
       this._attivita.tavoliConRichiamo.indexOf(tavolo),
       1
     );
-    setDoc(this.attivitaRef, { richiami: this._attivita.tavoliConRichiamo });
+    return setDoc(this.attivitaRef, {
+      richiami: this._attivita.tavoliConRichiamo,
+    });
   }
 }
 
