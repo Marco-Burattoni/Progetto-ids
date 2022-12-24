@@ -1,0 +1,14 @@
+Template:
+	Sign in 
+Menu cliente:
+	MenuItem
+Carrello cliente:
+	CartItem
+Ordine:
+	CartItem
+Form pagamento con carta (form pagamento dal sito di Stripe)
+Gestione ordini personale:
+	StaffCartItem
+
+Nomenclatura:
+- componenti/pagine *.jsx
