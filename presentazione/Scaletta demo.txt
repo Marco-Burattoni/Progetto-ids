@@ -1,0 +1,17 @@
+In preparazione alla presentazione: 
+un gestore
+un'attività
+il menù
+
+Cliente:
+aggiunge roba al carrello
+conferma l'ordine
+
+Personale:
+riceve l'ordine e lo contrassegna come consegnato
+
+Cliente:
+paga
+
+
+
