@@ -12,14 +12,14 @@ const useStyles = makeStyles({
 });
 
 //ci vuole anche la quantità?
-function CartItem({ nomePortata, prezzo }) {
+function CartItem({ nomePortata, prezzo, quantita }) {
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
         <Typography>
-          {nomePortata} {prezzo}€
+          {quantita}  {nomePortata}  {prezzo}€
         </Typography>
       </Grid>
     </Grid>
