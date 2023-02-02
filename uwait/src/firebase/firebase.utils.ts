@@ -1,12 +1,10 @@
 import { db } from "./firebase";
-import { doc, collection, getDocs, getDoc } from "firebase/firestore";
-import { Attivita, Menu } from "../model/attivita.model";
+import { collection, getDocs } from "firebase/firestore";
+import { Menu } from "../model/attivita.model";
 import { Portata } from "../model/portata.model";
-import { async } from "@firebase/util";
-import { MenuListProps } from "@material-ui/core";
 
 export async function fetchMenus(attivitaId: string): Promise<Menu[]> {
-  const menuCollRef = collection(db, attivitaId, "menu");
+  const menuCollRef = collection(db, "attivita", attivitaId, "menu");
 
   let menus = await getDocs(menuCollRef);
   let result: Menu[] = [];
@@ -29,10 +27,10 @@ export async function fetchMenus(attivitaId: string): Promise<Menu[]> {
           portataData.allergeni ?? []
         )
       );
-      result.push(
-        new Menu(menuData.nome, menuData.attivo, portate, menuData.tipo)
-      );
     }
+    result.push(
+      new Menu(menuData.nome, menuData.attivo, portate, menuData.tipo)
+    );
   }
 
   return result;
