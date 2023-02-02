@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ViewControlloOrdini() {
+function ViewControlloOrdini({ordini}) {
   return (
     <div>ViewControlloOrdini</div>
   )
