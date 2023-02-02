@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import MenuItem from "../components/MenuItem";
-import { BrowserRouter as Router, Link, useLocation } from "react-router-dom";
-import { Attivita } from "../../model/attivita.model";
+import { useLocation } from "react-router-dom";
 import { fetchMenus } from "../../firebase/firebase.utils";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-
-const useStyles = makeStyles({
-  root: {
-    border: "1px solid gray",
-    padding: "10px",
-    marginBottom: "10px",
-  },
-});
 
 function useQuery() {
   const { search } = useLocation();
@@ -22,8 +12,6 @@ function useQuery() {
 }
 
 function ViewMenu() {
-  const classes = useStyles();
-
   let query = useQuery();
   let [menus, setMenus] = useState();
 
