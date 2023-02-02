@@ -1,30 +1,31 @@
-import React from 'react'
+import React from "react";
+import MenuItem from "../components/MenuItem";
 
 function ViewMenu() {
   const menu = [
     {
-      nome: 'Pizza Margherita',
-      descrizione: 'Pomodoro, mozzarella, basilico',
+      nome: "Pizza Margherita",
+      descrizione: "Pomodoro, mozzarella, basilico",
       prezzo: 8,
-      allergeni: ['glutine']
+      allergeni: ["glutine"],
     },
     {
-      nome: 'Pasta al pomodoro',
-      descrizione: 'Pasta con salsa di pomodoro fresco',
+      nome: "Pasta al pomodoro",
+      descrizione: "Pasta con salsa di pomodoro fresco",
       prezzo: 7,
-      allergeni: []
+      allergeni: [],
     },
     {
-      nome: 'Insalata caprese',
-      descrizione: 'Mozzarella, pomodori, basilico, olio extravergine d\'oliva',
+      nome: "Insalata caprese",
+      descrizione: "Mozzarella, pomodori, basilico, olio extravergine d'oliva",
       prezzo: 6,
-      allergeni: []
-    }
-  ]
+      allergeni: [],
+    },
+  ];
 
   return (
     <div>
-      {menu.map(item => (
+      {menu.map((item) => (
         <MenuItem
           key={item.nome}
           nome={item.nome}
@@ -34,7 +35,7 @@ function ViewMenu() {
         />
       ))}
     </div>
-  )
+  );
 }
 
-export default ViewMenu
+export default ViewMenu;
