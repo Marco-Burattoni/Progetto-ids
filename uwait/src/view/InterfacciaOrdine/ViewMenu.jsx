@@ -4,6 +4,16 @@ import MenuItem from "../components/MenuItem";
 import { BrowserRouter as Router, Link, useLocation } from "react-router-dom";
 import { Attivita } from "../../model/attivita.model";
 import { fetchMenus } from "../../firebase/firebase.utils";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles({
+  root: {
+    border: "1px solid gray",
+    padding: "10px",
+    marginBottom: "10px",
+  },
+});
 
 function useQuery() {
   const { search } = useLocation();
@@ -12,48 +22,41 @@ function useQuery() {
 }
 
 function ViewMenu() {
+  const classes = useStyles();
+
   let query = useQuery();
-  let [menus, setMenus] = useState([]);
+  let [menus, setMenus] = useState();
 
   useEffect(() => {
-    const attivitaId = query.get("attivita");
-    setMenus(fetchMenus(attivitaId));
+    async function fetchdata() {
+      const attivitaId = query.get("attivita");
+      const menus = await fetchMenus(attivitaId);
+      setMenus(menus);
+    }
+
+    fetchdata();
   }, [query]);
 
-  /*const menu = [
-    {
-      nome: "Pizza Margherita",
-      descrizione: "Pomodoro, mozzarella, basilico",
-      prezzo: 8,
-      allergeni: ["glutine"],
-    },
-    {
-      nome: "Pasta al pomodoro",
-      descrizione: "Pasta con salsa di pomodoro fresco",
-      prezzo: 7,
-      allergeni: [],
-    },
-    {
-      nome: "Insalata caprese",
-      descrizione: "Mozzarella, pomodori, basilico, olio extravergine d'oliva",
-      prezzo: 6,
-      allergeni: [],
-    },
-  ];*/
+  const menu = menus ? menus[0] : null;
 
   return (
     <div>
-      {menus.map((menu) => [
-        menu.map((item) => (
-          <MenuItem
-            key={item.nome}
-            nome={item.nome}
-            descrizione={item.descrizione}
-            prezzo={item.prezzo}
-            allergeni={item.allergeni}
-          />
-        )),
-      ])}
+      {menu ? (
+        <>
+          <Typography variant="h2">{menu.nome}</Typography>
+          {menu.portate.map((item) => (
+            <MenuItem
+              key={item.nome}
+              nome={item.nome}
+              descrizione={item.descrizione}
+              prezzo={item.prezzo}
+              allergeni={item.allergeni}
+            />
+          ))}
+        </>
+      ) : (
+        <>Impossibile trovare l'attività che cerchi</>
+      )}
     </div>
   );
 }
