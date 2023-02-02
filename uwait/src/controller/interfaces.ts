@@ -86,6 +86,7 @@ export interface IGestioneOrdine {
   inserisci(portata: Portata, quantita: number): void;
   modifica(portata: Portata, quantita: number): void;
   elimina(portata: Portata): void;
+  totale(): number;
 }
 
 export interface IInserimentoNote {

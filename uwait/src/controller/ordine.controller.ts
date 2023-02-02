@@ -55,4 +55,14 @@ export class GestioneOrdineController
     this._ordine.portate.delete(portata);
     // TODO: aggiornamento documento
   }
+
+  totale(): number {
+    let result: number = 0;
+
+    this.ordine.portate.forEach((value, key) => {
+      result += key.prezzo * value;
+    });
+
+    return result;
+  }
 }
