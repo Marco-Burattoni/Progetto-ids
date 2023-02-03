@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import MenuItem from "../components/MenuItem";
-import { useLocation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { fetchMenus } from "../../firebase/firebase.utils";
 import Typography from "@material-ui/core/Typography";
+import { Ordine } from "../../model/ordine.model";
 
-function useQuery() {
-  const { search } = useLocation();
+function ViewMenu({ ordine }) {
+  const loaderData = useLoaderData();
+  const { attivitaId } = loaderData;
 
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
-function ViewMenu() {
-  let query = useQuery();
   let [menus, setMenus] = useState();
+
+  if (!ordine) {
+    ordine = new Ordine();
+  }
 
   useEffect(() => {
     async function fetchdata() {
-      const attivitaId = query.get("attivita");
       const menus = await fetchMenus(attivitaId);
       setMenus(menus);
     }
 
     fetchdata();
-  }, [query]);
+  }, [attivitaId]);
 
   const menu = menus ? menus[0] : null;
 

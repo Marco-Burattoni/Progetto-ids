@@ -35,3 +35,5 @@ export async function fetchMenus(attivitaId: string): Promise<Menu[]> {
 
   return result;
 }
+
+export async function createOrder() {}

@@ -3,17 +3,27 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  LoaderFunctionArgs,
+  RouterProvider,
+} from "react-router-dom";
 import SignIn from "./view/InterfacciaLogin/ViewLogin";
 import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
 import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
+import ViewPagamentoOrdine from "./view/InterfacciaCliente/ViewPagamentoOrdine";
+
+export async function loader(args: LoaderFunctionArgs) {
+  return args.params;
+}
 
 let state = {
   isSignedIn: false,
   gestore: null,
   personale: null,
   ordine: null,
+  pagamento: null,
 };
 
 const router = createBrowserRouter([
@@ -22,20 +32,31 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/signin",
+    path: "signin",
     element: <SignIn />,
   },
   {
-    path: "/signup",
+    path: "signup",
     element: <SignUp />,
   },
   {
-    path: "/menu",
-    element: <ViewMenu />,
-  },
-  {
-    path: "/riepilogo",
-    element: <ViewRiepilogoOrdine ordine={state.ordine} />,
+    path: "/:attivitaId",
+    loader: loader,
+    children: [
+      {
+        path: "menu",
+        element: <ViewMenu ordine={state.ordine} />,
+        loader: loader,
+      },
+      {
+        path: "riepilogo",
+        element: <ViewRiepilogoOrdine ordine={state.ordine} />,
+      },
+      {
+        path: "pagamento",
+        element: <ViewPagamentoOrdine />, // pagamento={state.pagamento} />,
+      },
+    ],
   },
 ]);
 
