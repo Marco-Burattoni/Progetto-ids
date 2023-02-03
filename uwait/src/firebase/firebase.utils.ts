@@ -1,7 +1,8 @@
 import { db } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, setDoc } from "firebase/firestore";
 import { Menu } from "../model/attivita.model";
 import { Portata } from "../model/portata.model";
+import { Ordine } from "../model/ordine.model";
 
 export async function fetchMenus(attivitaId: string): Promise<Menu[]> {
   const menuCollRef = collection(db, "attivita", attivitaId, "menu");
@@ -36,4 +37,15 @@ export async function fetchMenus(attivitaId: string): Promise<Menu[]> {
   return result;
 }
 
-export async function createOrder() {}
+export async function createOrder(
+  attivitaId: string,
+  tavolo: number
+): Promise<Ordine> {
+  const docRef = await addDoc(collection(db, "ordini"), {
+    attivitaId,
+    tavolo: tavolo,
+  });
+  let order = new Ordine(docRef.id, tavolo);
+  setDoc(docRef, { attivitaId, tavolo: order.tavolo });
+  return order;
+}
