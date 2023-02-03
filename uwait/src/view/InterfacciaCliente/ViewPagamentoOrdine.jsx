@@ -4,12 +4,11 @@ import { loadStripe } from '@stripe/stripe-js';
 import { PaymentElement } from '@stripe/react-stripe-js';
 import { Grid, Typography, Paper, Button } from '@material-ui/core';
 
-
-//non so cosa mettere nella public key
 const stripePromise = loadStripe('YOUR_PUBLISHABLE_KEY');
 
 function ViewPagamentoOrdine({ ordine }) {
-  const setErrore = useState(null);
+  const [pagamenti, setPagamenti] = useState([]);
+  const [errore, setErrore] = useState(null);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -18,7 +17,6 @@ function ViewPagamentoOrdine({ ordine }) {
     if (!stripe || !elements) {
       return;
     }
-
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(PaymentElement),
@@ -36,8 +34,9 @@ function ViewPagamentoOrdine({ ordine }) {
         numeroCarta: paymentMethod.card.last4,
         scadenza: `${paymentMethod.card.exp_month}/${paymentMethod.card.exp_year}`,
       };
-    }
 
+      setPagamenti([...pagamenti, pagamento]);
+    }
   }
 
   return (
