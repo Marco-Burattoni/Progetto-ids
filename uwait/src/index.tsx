@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./view/InterfacciaLogin/ViewLogin";
 import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
+import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/menu",
     element: <ViewMenu />,
+  },
+  {
+    path: "/riepilogo",
+    element: <ViewRiepilogoOrdine />,
   },
 ]);
 
