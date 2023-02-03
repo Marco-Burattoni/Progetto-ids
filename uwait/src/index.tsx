@@ -9,6 +9,13 @@ import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
 import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
 
+let state = {
+  isSignedIn: false,
+  gestore: null,
+  personale: null,
+  ordine: null,
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/riepilogo",
-    element: <ViewRiepilogoOrdine />,
+    element: <ViewRiepilogoOrdine ordine={state.ordine} />,
   },
 ]);
 
