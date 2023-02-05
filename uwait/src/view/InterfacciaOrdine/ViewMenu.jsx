@@ -62,7 +62,7 @@
 
 // export default ViewMenu;
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import { AppContext } from "../../App";
 import { useEffect } from "react";
 import MenuItem from "../components/MenuItem";
@@ -72,24 +72,25 @@ import Typography from "@material-ui/core/Typography";
 import { TextField } from "@material-ui/core";
 import { Button, Grid } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-
+import { GestioneOrdineController } from "../../controller/ordine.controller";
 
 const ViewMenu = () => {
   const loaderData = useLoaderData();
-  const { attivitaId } = loaderData;
-  const { ordine, setOrdine } = useContext(AppContext);
-  
-  const [tavolo, setTavolo] = useState(0);
+  const { ordine, setOrdine, tavolo, setTavolo } = useContext(AppContext);
+
+  // const [] = useState(0);
+  const [attivitaId, setAttivitaId] = useState(loaderData.attivitaId);
   let [menus, setMenus] = useState();
 
-  useEffect(() => {
+  useMemo(async () => {
     if (!ordine && tavolo > 0) {
-      setOrdine(createOrder(attivitaId, tavolo));
+      setOrdine(await createOrder(attivitaId, tavolo));
     }
-  }, [attivitaId, ordine, tavolo]);
+  }, [attivitaId, ordine, setOrdine, tavolo]);
 
-  useEffect(() => {
+  useMemo(() => {
     async function fetchData() {
+      console.log(attivitaId);
       const menus = await fetchMenus(attivitaId);
       setMenus(menus);
     }
@@ -99,16 +100,15 @@ const ViewMenu = () => {
   const menu = menus ? menus[0] : null;
 
   const handleAddToOrder = (item, quantita) => {
-    
+    let _ordine = { ...ordine };
+    const controller = new GestioneOrdineController(tavolo, _ordine);
+    controller.inserisci(item, quantita);
+    setOrdine(_ordine);
   };
 
-  const handleDecrementQuantity = (item) => {
-    
-  };
+  const handleDecrementQuantity = (item) => {};
 
-  const handleIncrementQuantity = (item) => {
-    
-  };
+  const handleIncrementQuantity = (item) => {};
   return (
     <div>
       {menu ? (
@@ -134,18 +134,25 @@ const ViewMenu = () => {
               <Grid item xs={3}>
                 <Grid container direction="column" spacing={2}>
                   <Grid item>
-
                     <TextField
                       type="number"
                       inputProps={{ inputMode: "numeric", pattern: "[0-9]" }}
-                      value={item.quantita || 0}
-                      disabled
+                      value={ordine?.portate?.get(item) || 0}
+                      disabled={tavolo === 0}
                     />
-                    <Button onClick={() => handleDecrementQuantity(item)}>-</Button>
-                    <Button onClick={() => handleAddToOrder(item, item.quantita || 0)}>
+                    <Button onClick={() => handleDecrementQuantity(item)}>
+                      -
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        handleAddToOrder(item, ordine?.portate?.get(item) || 0)
+                      }
+                    >
                       <ShoppingCartIcon />
                     </Button>
-                    <Button onClick={() => handleIncrementQuantity(item)}>+</Button>
+                    <Button onClick={() => handleIncrementQuantity(item)}>
+                      +
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>
