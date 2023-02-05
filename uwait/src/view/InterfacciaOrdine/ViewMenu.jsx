@@ -77,8 +77,9 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 const ViewMenu = () => {
   const loaderData = useLoaderData();
   const { attivitaId } = loaderData;
-  const { tavolo, setTavolo, ordine, setOrdine } = useContext(AppContext);
-
+  const { ordine, setOrdine } = useContext(AppContext);
+  
+  const [tavolo, setTavolo] = useState(0);
   let [menus, setMenus] = useState();
 
   useEffect(() => {
