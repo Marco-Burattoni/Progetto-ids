@@ -9,6 +9,7 @@ import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
 import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
 import ViewPagamentoOrdine from "./view/InterfacciaCliente/ViewPagamentoOrdine";
+import StripeWrapper from "./view/InterfacciaCliente/StripeWrapper";
 
 async function loader(args: LoaderFunctionArgs) {
   return args.params;
@@ -52,7 +53,7 @@ export default function App() {
         },
         {
           path: "pagamento",
-          element: <ViewPagamentoOrdine ordine={ordine} />, // pagamento={pagamento} />,
+          element: <StripeWrapper ordine={ordine} />, // pagamento={pagamento} />,
         },
       ],
     },

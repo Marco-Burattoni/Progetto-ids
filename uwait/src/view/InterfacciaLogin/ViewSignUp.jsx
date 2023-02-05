@@ -57,7 +57,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Nome"
                   autoFocus
                 />
               </Grid>
@@ -66,7 +66,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label="Cognome"
                   name="lastName"
                   autoComplete="family-name"
                 />
@@ -104,7 +104,7 @@ export default function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                  Hai già un account? Sign in
                 </Link>
               </Grid>
             </Grid>
