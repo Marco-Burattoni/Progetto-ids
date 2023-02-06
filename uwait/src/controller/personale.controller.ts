@@ -1,7 +1,14 @@
-import { collection, getDocs, query, setDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { Personale } from "../model/account.model";
 import { Attivita } from "../model/attivita.model";
-import { Ordine } from "../model/ordine.model";
+import { Ordine, StatoOrdine } from "../model/ordine.model";
 import { AttivitaController } from "./attivita.controller";
 import { Controller } from "./controller";
 import { IGestionePersonale, IInserimentoNote } from "./interfaces";
@@ -60,6 +67,13 @@ export class GestionePersonaleController
     });
 
     return result;
+  }
+
+  public setConsegnato(ordine: Ordine) {
+    ordine.consegnato = true;
+
+    const docRef = doc(this.getDb(), "ordini", ordine.id);
+    setDoc(docRef, { consegnato: true });
   }
 
   public richiamoGestito(tavolo: number): Promise<void> {

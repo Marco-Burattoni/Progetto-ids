@@ -90,8 +90,12 @@ export class Ordine {
   }
 
   public aggiungiPortata(portata: Portata) {
-    let count = this._portate.get(portata) || 0;
+    let count = this._portate.get(portata) ?? 0;
     this._portate.set(portata, count + 1);
+  }
+
+  public modificaPortata(portata: Portata, quantita: number) {
+    this._portate.set(portata, quantita);
   }
 
   // alla conferma controllo che il numero del tavolo sia positivo

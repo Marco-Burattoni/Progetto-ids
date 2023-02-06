@@ -101,15 +101,29 @@ const ViewMenu = () => {
   const menu = menus ? menus[0] : null;
 
   const handleAddToOrder = (item, quantita) => {
-    let _ordine = { ...ordine };
-    const controller = new GestioneOrdineController(tavolo, _ordine);
-    controller.inserisci(item, quantita);
-    setOrdine(_ordine);
+    const controller = new GestioneOrdineController(tavolo, ordine);
+    if (ordine.portate.has(item)) {
+      controller.modifica(item, quantita);
+    } else {
+      controller.inserisci(item, quantita);
+    }
+    setOrdine(controller.ordine);
   };
 
-  const handleDecrementQuantity = (item) => {};
+  const handleDecrementQuantity = (item) => {
+    let quantita = ordine.portate.get(item) ?? 1;
+    const controller = new GestioneOrdineController(tavolo, ordine);
+    controller.modifica(item, quantita - 1);
+    setOrdine(controller.ordine);
+  };
 
-  const handleIncrementQuantity = (item) => {};
+  const handleIncrementQuantity = (item) => {
+    let quantita = ordine.portate.get(item) ?? 0;
+    const controller = new GestioneOrdineController(tavolo, ordine);
+    controller.modifica(item, quantita + 1);
+    setOrdine(controller.ordine);
+  };
+
   return (
     <div>
       {menu ? (
@@ -140,7 +154,7 @@ const ViewMenu = () => {
                     <TextField
                       type="number"
                       inputProps={{ inputMode: "numeric", pattern: "[0-9]" }}
-                      value={ordine?.portate?.get(item) || 0}
+                      defaultValue={ordine?.portate?.get(item) || 0}
                       disabled={tavolo === 0}
                     />
                     <Button onClick={() => handleDecrementQuantity(item)}>

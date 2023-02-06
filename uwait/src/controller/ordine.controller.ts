@@ -35,9 +35,8 @@ export class GestioneOrdineController
   }
 
   inserisci(portata: Portata, quantita: number = 1): void {
-    for (let i = 0; i < quantita; i++) {
-      this._ordine.aggiungiPortata(portata);
-    }
+    this._ordine.modificaPortata(portata, quantita);
+
     // TODO: aggiornamento documento
   }
 
