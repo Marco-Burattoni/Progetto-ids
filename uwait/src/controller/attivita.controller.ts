@@ -1,4 +1,3 @@
-import { env } from "process";
 import { Personale } from "../model/account.model";
 import { Attivita, Menu } from "../model/attivita.model";
 import { Controller } from "./controller";
@@ -56,7 +55,7 @@ export class GestioneAttivitaController
 
       await setDoc(attivitaRef, querySnapshot.docs[0].ref);
 
-      return env.PUBLIC_URL + "/" + this.attivita.id;
+      return process.env.PUBLIC_URL + "/" + this.attivita.id;
     } else return null;
   }
 

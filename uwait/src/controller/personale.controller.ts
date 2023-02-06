@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { Personale } from "../model/account.model";
 import { Attivita } from "../model/attivita.model";
-import { Ordine, StatoOrdine } from "../model/ordine.model";
+import { Ordine } from "../model/ordine.model";
 import { AttivitaController } from "./attivita.controller";
 import { Controller } from "./controller";
 import { IGestionePersonale, IInserimentoNote } from "./interfaces";
@@ -47,8 +47,8 @@ export class GestionePersonaleController
     const attivitaRef = this.attivitaRef;
     const q = query(
       collection(this.getDb(), "ordini"),
-      where("attivita", "==", attivitaRef),
-      where("consegnato", "==", false)
+      where("attivitaId", "==", attivitaRef.id),
+      where("consegnato", "!=", true)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -65,6 +65,8 @@ export class GestionePersonaleController
         )
       );
     });
+
+    console.log(result);
 
     return result;
   }

@@ -9,6 +9,8 @@ import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
 import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
 import StripeWrapper from "./view/InterfacciaCliente/StripeWrapper";
+import { signIn } from "./firebase/firebase.utils";
+import ViewControlloOrdini from "./view/InterfacciaPersonale/ViewControlloOrdini";
 
 async function loader(args: LoaderFunctionArgs) {
   return args.params;
@@ -27,7 +29,7 @@ export default function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <div>Home</div>,
+      element: <ViewControlloOrdini />,
     },
     {
       path: "signin",

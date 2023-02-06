@@ -1,7 +1,4 @@
 collegare le varie interfacce 
 home personale 
-aggiungi al carrello
-stato dell'applicazione e persistenza locale
-conferma ordine
 view controllo ordini
 view pagamento 

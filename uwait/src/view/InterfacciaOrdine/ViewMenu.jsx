@@ -32,7 +32,6 @@ const ViewMenu = () => {
     if (localStorage.getItem("ordine") === null && !ordine && tavolo > 0) {
       (async function () {
         let order = await createOrder(attivitaId, tavolo);
-        console.log(order);
         saveOrdine(order);
         setOrdine(order);
       })();
@@ -54,7 +53,11 @@ const ViewMenu = () => {
           menus[0],
           localStorage.getItem("ordine")
         );
-        setOrdine(order);
+        if (order) {
+          setOrdine(order);
+        } else {
+          setOrdine(await createOrder(attivitaId, tavolo));
+        }
       })();
   }, [menus]);
 
