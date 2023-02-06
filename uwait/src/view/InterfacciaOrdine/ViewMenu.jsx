@@ -73,6 +73,7 @@ import { TextField } from "@material-ui/core";
 import { Button, Grid } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { GestioneOrdineController } from "../../controller/ordine.controller";
+import { FormLabel } from "@mui/material";
 
 const ViewMenu = () => {
   const loaderData = useLoaderData();
@@ -114,12 +115,14 @@ const ViewMenu = () => {
       {menu ? (
         <>
           <Typography variant="h2">{menu.nome}</Typography>
-          <Typography variant="body1">Tavolo: </Typography>
+          {/*<Typography variant="body1">Tavolo: </Typography>*/}
+          <FormLabel htmlFor="tavolo">Tavolo: </FormLabel>
           <TextField
+            name="tavolo"
             type="number"
             inputProps={{ inputMode: "numeric", pattern: "[0-9]" }}
-            value={tavolo}
-            onChange={(e) => setTavolo(parseInt(e.target.value))}
+            defaultValue={tavolo}
+            onBlur={(e) => setTavolo(parseInt(e.target.value))}
           />
           {menu.portate.map((item) => (
             <Grid container spacing={2} key={item.nome}>
