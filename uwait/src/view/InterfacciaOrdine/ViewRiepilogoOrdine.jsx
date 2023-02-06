@@ -1,41 +1,53 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import CartItem from "../components/CartItem";
-
-// Ordine
-// composto da:
-// Timestamp
-// Voci del menù
-// selezionate
-// Tavolo
-// Prezzo totale
-//passo collezione di cartItem
+import { Box, Typography, Button } from "@material-ui/core";
+import { AppContext } from "../../App";
+import { GestioneOrdineController } from "../../controller/ordine.controller";
 
 function ViewRiepilogoOrdine({ ordine }) {
+
+  const navigate = useNavigate();
+  const tavolo = useContext(AppContext);
+  
+  const onConfermaOrdine = () => {
+    const conferma = window.confirm("Sei sicuro di voler confermare l'ordine?");
+    if (conferma) {
+      const controller = new GestioneOrdineController(tavolo, ordine);
+      controller.conferma(ordine)
+    }
+  };
+
+  const onAnnullaOrdine = () => {
+    navigate("../menu");
+  };
+
   if (ordine) {
     const { cartItems, totale, tavolo, data } = ordine;
 
     return (
-      <div>
-        RIEPILOGO
+      <Box>
+        <Typography variant="h6">RIEPILOGO</Typography>
         {cartItems.map((cartItem) => (
           <CartItem
             nomePortata={cartItem.nomePortata}
             prezzo={cartItem.prezzo}
-          ></CartItem>
+          />
         ))}
-        <p>Totale: {totale} </p>
-        <p>Tavolo: {tavolo} </p>
-        <p>Data: {data} </p>
-      </div>
+        <Typography>Totale: {totale}</Typography>
+        <Typography>Tavolo: {tavolo}</Typography>
+        <Typography>Data: {data}</Typography>
+        <Button variant="contained" color="primary" onClick={onConfermaOrdine}>
+          Conferma ordine
+        </Button>
+        <Button variant="contained" color="secondary" onClick={onAnnullaOrdine}>
+          Annulla ordine
+        </Button>
+      </Box>
     );
   } else {
-    return <div></div>;
+    return <div>Non hai ancora ordinato</div>;
   }
-
-  //il totale lo calcolo qui o viene passato come props?
-  //nello stato come sono salvati i cart item? Vengono ragguppati in una sorta di mappa nome-quantità
-  //o sono sequenziali e devo calcolare a mano la quantità totale da cui poi ricavo il prezzo tatale?
-  //come si associa il tavolo all'ordine?
 }
 
 export default ViewRiepilogoOrdine;

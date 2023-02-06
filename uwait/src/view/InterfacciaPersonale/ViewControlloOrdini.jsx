@@ -2,12 +2,22 @@ import React from 'react'
 import OrdineItem from '../components/OrdineItem'
 import { GestionePersonaleController } from "../../controller/personale.controller"
 import Button from '@material-ui/core/Button';
+import { useNavigate } from "react-router-dom";
 
 function ViewControlloOrdini({ ordini }) {
   
+  const { ordine, setOrdine, tavolo, setTavolo, personale, attivita} = useContext(AppContext);
+  const navigate = useNavigate();
+
   const handleConsegnaOrdine = (ordine) => {
     const controller = new GestionePersonaleController(personale, attivita);
     controller.setConsegnato(ordine);
+    
+  }
+
+  //per servire un tavolo accedo al menu
+  const handleServiTavolo = () => {
+    navigate("../menu");
   }
 
   return (
@@ -26,6 +36,9 @@ function ViewControlloOrdini({ ordini }) {
           </Button>
         </div>
       ))}
+      <Button variant="contained" color="primary" onClick={() => handleServiTavolo(item)}>
+            Servi un tavolo
+      </Button>
     </div>
   )
 }
