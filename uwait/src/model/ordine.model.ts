@@ -95,7 +95,25 @@ export class Ordine {
   }
 
   public modificaPortata(portata: Portata, quantita: number) {
+    for (let p of this.portate.keys()) {
+      if (p.id === portata.id) {
+        portata = p;
+        break;
+      }
+    }
+
     this._portate.set(portata, quantita);
+  }
+
+  public getQuantita(portata: Portata): number {
+    if (this.portate.keys())
+      for (let p of this.portate.keys()) {
+        if (p.id === portata.id) {
+          return this.portate.get(p) ?? 0;
+        }
+      }
+
+    return 0;
   }
 
   // alla conferma controllo che il numero del tavolo sia positivo

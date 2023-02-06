@@ -1,4 +1,4 @@
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { Ordine, StatoOrdine } from "../model/ordine.model";
 import { Portata } from "../model/portata.model";
 import { Controller } from "./controller";
@@ -34,25 +34,33 @@ export class GestioneOrdineController
     this._ordine = value;
   }
 
-  inserisci(portata: Portata, quantita: number = 1): void {
-    this._ordine.modificaPortata(portata, quantita);
+  private async updatePortate() {
+    const arr = Array.from(this.ordine.portate, function (item) {
+      return { portata: item[0].id, value: item[1] };
+    });
 
-    // TODO: aggiornamento documento
+    console.log(arr);
+    updateDoc(this.ordineRef, { portate: arr });
   }
 
-  conferma(ordine: Ordine): void {
+  inserisci(portata: Portata, quantita: number = 1): void {
+    this._ordine.modificaPortata(portata, quantita);
+    this.updatePortate();
+  }
+
+  conferma(): void {
     this._ordine.statoOrdine = StatoOrdine.Confermato;
-    // TODO: aggiornamento documento
+    updateDoc(this.ordineRef, { statoOrdine: this.ordine.statoOrdine });
   }
 
   modifica(portata: Portata, quantita: number): void {
-    this._ordine.portate.set(portata, quantita);
-    // TODO: aggiornamento documento
+    this._ordine.modificaPortata(portata, quantita);
+    this.updatePortate();
   }
 
   elimina(portata: Portata): void {
     this._ordine.portate.delete(portata);
-    // TODO: aggiornamento documento
+    this.updatePortate();
   }
 
   totale(): number {

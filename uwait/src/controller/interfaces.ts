@@ -82,7 +82,7 @@ export interface IGestioneAssistenza {
 }
 
 export interface IGestioneOrdine {
-  conferma(ordine: Ordine): void;
+  conferma(): void;
   inserisci(portata: Portata, quantita: number): void;
   modifica(portata: Portata, quantita: number): void;
   elimina(portata: Portata): void;
