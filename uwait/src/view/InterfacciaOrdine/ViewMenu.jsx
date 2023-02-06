@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, useMemo, useReducer } from "react";
 import { AppContext } from "../../App";
 import MenuItem from "../components/MenuItem";
@@ -36,7 +37,7 @@ const ViewMenu = () => {
         setOrdine(order);
       })();
     }
-  }, [attivitaId, ordine, setOrdine, tavolo]);
+  }, [attivitaId, setOrdine, tavolo]);
 
   useMemo(() => {
     async function fetchData() {

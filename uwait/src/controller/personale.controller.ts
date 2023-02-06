@@ -6,9 +6,11 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
+import { fetchMenus } from "../firebase/firebase.utils";
 import { Personale } from "../model/account.model";
-import { Attivita } from "../model/attivita.model";
-import { Ordine } from "../model/ordine.model";
+import { Attivita, Menu } from "../model/attivita.model";
+import { Ordine, StatoOrdine } from "../model/ordine.model";
+import { Portata } from "../model/portata.model";
 import { AttivitaController } from "./attivita.controller";
 import { Controller } from "./controller";
 import { IGestionePersonale, IInserimentoNote } from "./interfaces";
@@ -43,27 +45,38 @@ export class GestionePersonaleController
 
   public async controlloOrdini(): Promise<Ordine[]> {
     let result: Ordine[] = [];
+    let menu: Menu = (await fetchMenus(this.attivita.id))[0];
 
-    const attivitaRef = this.attivitaRef;
     const q = query(
       collection(this.getDb(), "ordini"),
-      where("attivitaId", "==", attivitaRef.id),
-      where("consegnato", "!=", true)
+      where("attivitaId", "==", this.attivita.id),
+      where("consegnato", "!=", true),
+      where("statoOrdine", "==", StatoOrdine.Confermato)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      result.push(
-        new Ordine(
-          doc.id,
-          data.tavolo,
-          data.consegnato,
-          data.dataOra,
-          data.note,
-          data.portate,
-          data.statoOrdine
-        )
+      const docData = doc.data();
+
+      let order = new Ordine(
+        doc.id,
+        docData?.tavolo,
+        docData?.consegnato || false,
+        docData?.dataOra || new Date(),
+        docData?.note || "",
+        new Map<Portata, number>(),
+        docData?.statoOrdine || StatoOrdine.NelCarrello
       );
+
+      if (docData) {
+        for (let portata of docData.portate) {
+          for (let p of menu.portate) {
+            if (p.id === portata.portata && portata.value)
+              order.modificaPortata(p, portata.value);
+          }
+        }
+      }
+
+      result.push(order);
     });
 
     console.log(result);
