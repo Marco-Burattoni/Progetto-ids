@@ -116,6 +116,16 @@ export class Ordine {
     return 0;
   }
 
+  public get totale(): number {
+    let result: number = 0;
+
+    this.portate.forEach((value, key) => {
+      result += key.prezzo * value;
+    });
+
+    return result;
+  }
+
   // alla conferma controllo che il numero del tavolo sia positivo
 }
 

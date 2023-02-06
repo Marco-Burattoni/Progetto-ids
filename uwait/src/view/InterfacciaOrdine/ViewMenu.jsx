@@ -158,6 +158,8 @@ const ViewMenu = () => {
                 ordine
               );
               ordineController.conferma();
+              localStorage.removeItem("ordine");
+              setOrdine(null);
             }}
           >
             Conferma Ordine

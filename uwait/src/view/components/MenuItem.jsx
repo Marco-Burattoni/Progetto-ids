@@ -2,10 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-//nome
-//descrizione
-//prezzo
-//allergeni
 
 const useStyles = makeStyles({
   root: {
@@ -15,7 +11,6 @@ const useStyles = makeStyles({
   },
 });
 
-//
 function MenuItem({ nome, descrizione, prezzo, allergeni }) {
   const classes = useStyles();
 

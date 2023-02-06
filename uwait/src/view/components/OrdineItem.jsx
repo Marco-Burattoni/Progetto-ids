@@ -19,25 +19,28 @@ const useStyles = makeStyles({
 // Tavolo
 // Prezzo totale
 function OrdineItem({ ordine }) {
-  const { portate, totale, tavolo, data, stato } = ordine;
+  const portate = ordine.portate;
+  const totale = ordine.totale;
+  const tavolo = ordine.tavolo;
+  const data = ordine.dataOra;
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
-        <Typography>{portate.join(", ")}</Typography>
+        <Typography>Portate:</Typography>
+        {Array.from(portate.entries()).map((portata) => (
+          <Typography>{portata[1] + " x " + portata[0].nome}</Typography>
+        ))}
       </Grid>
       <Grid item xs={12}>
-        <Typography>{totale}€</Typography>
+        <Typography>Totale: {totale}€</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography>{tavolo}</Typography>
+        <Typography>Tavolo: {tavolo}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography>{data}</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography>{stato}</Typography>
+        <Typography>{data.toDate().toString()}</Typography>
       </Grid>
     </Grid>
   );

@@ -22,7 +22,7 @@ function ViewControlloOrdini() {
         }
       }
     });
-  }, []);
+  }, [setGestore, setPersonale]);
 
   useEffect(() => {
     (async function () {
@@ -39,19 +39,14 @@ function ViewControlloOrdini() {
   const handleConsegnaOrdine = (ordine) => {
     const controller = new GestionePersonaleController(personale, attivita);
     controller.setConsegnato(ordine);
+    setOrdini(ordini.filter((val) => !val.consegnato));
   };
 
   return (
     <div>
       {ordini.map((item) => (
-        <div>
-          <OrdineItem
-            portate={item.portate}
-            totale={item.totale}
-            tavolo={item.tavolo}
-            data={item.data}
-            stato={item.stato}
-          />
+        <div key={item.id}>
+          <OrdineItem ordine={item} />
           <Button
             variant="contained"
             color="primary"

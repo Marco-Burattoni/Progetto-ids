@@ -3,7 +3,7 @@ import {
   doc,
   getDocs,
   query,
-  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { fetchMenus } from "../firebase/firebase.utils";
@@ -79,8 +79,6 @@ export class GestionePersonaleController
       result.push(order);
     });
 
-    console.log(result);
-
     return result;
   }
 
@@ -88,7 +86,7 @@ export class GestionePersonaleController
     ordine.consegnato = true;
 
     const docRef = doc(this.getDb(), "ordini", ordine.id);
-    setDoc(docRef, { consegnato: true });
+    updateDoc(docRef, { consegnato: true });
   }
 
   public richiamoGestito(tavolo: number): Promise<void> {
@@ -96,7 +94,7 @@ export class GestionePersonaleController
       this._attivita.tavoliConRichiamo.indexOf(tavolo),
       1
     );
-    return setDoc(this.attivitaRef, {
+    return updateDoc(this.attivitaRef, {
       richiami: this._attivita.tavoliConRichiamo,
     });
   }

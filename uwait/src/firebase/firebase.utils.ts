@@ -115,7 +115,7 @@ export async function fetchOrder(
       docData?.statoOrdine || StatoOrdine.NelCarrello
     );
 
-    if (docData) {
+    if (docData?.portate) {
       for (let portata of docData.portate) {
         for (let p of menu.portate) {
           if (p.id === portata.portata && portata.value)

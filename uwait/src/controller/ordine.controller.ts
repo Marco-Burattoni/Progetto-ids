@@ -50,7 +50,13 @@ export class GestioneOrdineController
 
   conferma(): void {
     this._ordine.statoOrdine = StatoOrdine.Confermato;
-    updateDoc(this.ordineRef, { statoOrdine: this.ordine.statoOrdine });
+    this._ordine.consegnato = false;
+    updateDoc(this.ordineRef, {
+      statoOrdine: this.ordine.statoOrdine,
+      consegnato: false,
+      dataOra: new Date(),
+      tavolo: this.ordine.tavolo,
+    });
   }
 
   modifica(portata: Portata, quantita: number): void {
