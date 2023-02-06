@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import { useState, createContext } from "react";
 import {
   createBrowserRouter,
   LoaderFunctionArgs,
@@ -8,7 +8,6 @@ import SignIn from "./view/InterfacciaLogin/ViewLogin";
 import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
 import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
-import ViewPagamentoOrdine from "./view/InterfacciaCliente/ViewPagamentoOrdine";
 import StripeWrapper from "./view/InterfacciaCliente/StripeWrapper";
 
 async function loader(args: LoaderFunctionArgs) {
@@ -23,7 +22,7 @@ export default function App() {
   const [personale, setPersonale] = useState(null);
   const [ordine, setOrdine] = useState(null);
   const [pagamento, setPagamento] = useState(null);
-  const [tavolo, setTavolo] = useState(0);
+  const [tavolo, setTavolo] = useState(localStorage.getItem("tavolo") ?? 0);
 
   const router = createBrowserRouter([
     {
