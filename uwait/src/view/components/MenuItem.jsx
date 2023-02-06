@@ -21,8 +21,8 @@ function MenuItem({ nome, descrizione, prezzo, allergeni }) {
 
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={12}>
-        <Typography variant="h3">{nome}</Typography>
+      <Grid item xs={6}>
+        <Typography variant="h5">{nome}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography>{descrizione}</Typography>
