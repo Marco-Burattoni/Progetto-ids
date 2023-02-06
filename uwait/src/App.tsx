@@ -9,7 +9,6 @@ import SignUp from "./view/InterfacciaLogin/ViewSignUp";
 import ViewMenu from "./view/InterfacciaOrdine/ViewMenu";
 import ViewRiepilogoOrdine from "./view/InterfacciaOrdine/ViewRiepilogoOrdine";
 import StripeWrapper from "./view/InterfacciaCliente/StripeWrapper";
-import { signIn } from "./firebase/firebase.utils";
 import ViewControlloOrdini from "./view/InterfacciaPersonale/ViewControlloOrdini";
 
 async function loader(args: LoaderFunctionArgs) {
@@ -50,7 +49,7 @@ export default function App() {
         },
         {
           path: "riepilogo",
-          element: <ViewRiepilogoOrdine ordine={ordine} />,
+          element: <ViewRiepilogoOrdine />,
         },
         {
           path: "pagamento",

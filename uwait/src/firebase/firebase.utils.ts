@@ -74,8 +74,19 @@ export async function fetchMenus(attivitaId: string): Promise<Menu[]> {
         portataData.allergeni ?? []
       );
       entry.id = portataDoc.id;
+
       portate.push(entry);
     }
+
+    const categorie = ["Antipasti", "Primi", "Secondi", "Contorni", "Dolci"];
+
+    portate = portate.sort((a, b) => {
+      const ca = categorie.indexOf(a.categoria);
+      const cb = categorie.indexOf(b.categoria);
+
+      return ca - cb;
+    });
+
     result.push(
       new Menu(menuData.nome, menuData.attivo, portate, menuData.tipo)
     );

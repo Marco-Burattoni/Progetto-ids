@@ -13,9 +13,14 @@ import { TextField } from "@material-ui/core";
 import { Button, Grid } from "@material-ui/core";
 import { GestioneOrdineController } from "../../controller/ordine.controller";
 import { FormLabel } from "@mui/material";
+import { ShoppingCart } from "@mui/icons-material/";
 import { useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 const ViewMenu = () => {
+  const navigate = useNavigate();
+
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const loaderData = useLoaderData();
@@ -87,7 +92,6 @@ const ViewMenu = () => {
       {menu ? (
         <>
           <Typography variant="h2">{menu.nome}</Typography>
-          {/*<Typography variant="body1">Tavolo: </Typography>*/}
           <FormLabel htmlFor="tavolo">Tavolo: </FormLabel>
           <TextField
             name="tavolo"
@@ -152,16 +156,13 @@ const ViewMenu = () => {
           ))}
 
           <Button
-            onClick={async () => {
-              let ordineController = new GestioneOrdineController(
-                tavolo,
-                ordine
-              );
-              ordineController.conferma();
-              localStorage.removeItem("ordine");
-              setOrdine(null);
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              navigate("/" + attivitaId + "/riepilogo");
             }}
           >
+            <ShoppingCart />
             Conferma Ordine
           </Button>
         </>

@@ -5,9 +5,8 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   root: {
-    border: "1px solid gray",
     padding: "10px",
-    marginBottom: "10px",
+    margin: "10px",
   },
 });
 
@@ -26,20 +25,20 @@ function OrdineItem({ ordine }) {
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12}>
+    <Grid container className={classes.root} direction="column">
+      <Grid item>
         <Typography>Portate:</Typography>
         {Array.from(portate.entries()).map((portata) => (
           <Typography>{portata[1] + " x " + portata[0].nome}</Typography>
         ))}
       </Grid>
-      <Grid item xs={12}>
+      <Grid item>
         <Typography>Totale: {totale}€</Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item>
         <Typography>Tavolo: {tavolo}</Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item>
         <Typography>{data.toDate().toString()}</Typography>
       </Grid>
     </Grid>

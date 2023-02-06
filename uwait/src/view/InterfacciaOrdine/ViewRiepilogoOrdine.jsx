@@ -5,16 +5,18 @@ import { Box, Typography, Button } from "@material-ui/core";
 import { AppContext } from "../../App";
 import { GestioneOrdineController } from "../../controller/ordine.controller";
 
-function ViewRiepilogoOrdine({ ordine }) {
-
+function ViewRiepilogoOrdine() {
   const navigate = useNavigate();
-  const tavolo = useContext(AppContext);
-  
-  const onConfermaOrdine = () => {
+  const { ordine, setOrdine, tavolo } = useContext(AppContext);
+
+  const onConfermaOrdine = async () => {
     const conferma = window.confirm("Sei sicuro di voler confermare l'ordine?");
     if (conferma) {
       const controller = new GestioneOrdineController(tavolo, ordine);
-      controller.conferma(ordine)
+      localStorage.removeItem("ordine");
+      await controller.conferma();
+      setOrdine(null);
+      navigate("../menu");
     }
   };
 
@@ -23,20 +25,20 @@ function ViewRiepilogoOrdine({ ordine }) {
   };
 
   if (ordine) {
-    const { cartItems, totale, tavolo, data } = ordine;
-
     return (
       <Box>
         <Typography variant="h6">RIEPILOGO</Typography>
-        {cartItems.map((cartItem) => (
+        {Array.from(ordine.portate.entries()).map((portata) => (
           <CartItem
-            nomePortata={cartItem.nomePortata}
-            prezzo={cartItem.prezzo}
+            nomePortata={portata[0].nome}
+            prezzo={portata[0].prezzo}
+            quantita={portata[1]}
+            key={portata[0].id}
           />
         ))}
-        <Typography>Totale: {totale}</Typography>
+        <Typography>Totale: {ordine.totale}€</Typography>
         <Typography>Tavolo: {tavolo}</Typography>
-        <Typography>Data: {data}</Typography>
+        <Typography>Data: {ordine.dataOra.toString()}</Typography>
         <Button variant="contained" color="primary" onClick={onConfermaOrdine}>
           Conferma ordine
         </Button>

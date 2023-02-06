@@ -39,7 +39,6 @@ export class GestioneOrdineController
       return { portata: item[0].id, value: item[1] };
     });
 
-    console.log(arr);
     updateDoc(this.ordineRef, { portate: arr });
   }
 
@@ -48,10 +47,10 @@ export class GestioneOrdineController
     this.updatePortate();
   }
 
-  conferma(): void {
+  async conferma() {
     this._ordine.statoOrdine = StatoOrdine.Confermato;
     this._ordine.consegnato = false;
-    updateDoc(this.ordineRef, {
+    await updateDoc(this.ordineRef, {
       statoOrdine: this.ordine.statoOrdine,
       consegnato: false,
       dataOra: new Date(),

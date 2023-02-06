@@ -51,6 +51,7 @@ function ViewControlloOrdini() {
             variant="contained"
             color="primary"
             onClick={() => handleConsegnaOrdine(item)}
+            style={{ marginLeft: "10px", marginBottom: "10px" }}
           >
             Consegna ordine
           </Button>
